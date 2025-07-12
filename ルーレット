@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>スマホ用ルーレット</title>
+  <style>
+    #result { font-size: 2em; margin-top: 20px; }
+    button { font-size: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>ルーレット🎉</h1>
+  <button onclick="spin()">スピンする</button>
+  <div id="result">結果がここに表示されます</div>
+
+  <script>
+    const options = ['さばみりん', 'あじ開き', 'いか干し', 'ほっけ', '金目鯛'];
+    function spin() {
+      const index = Math.floor(Math.random() * options.length);
+      document.getElementById('result').textContent = options[index];
+    }
+  </script>
+</body>
+</html>

@@ -1,24 +1,138 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>スマホ用ルーレット</title>
-  <style>
-    #result { font-size: 2em; margin-top: 20px; }
-    button { font-size: 1.5em; }
-  </style>
-</head>
-<body>
-  <h1>ルーレット🎉</h1>
-  <button onclick="spin()">スピンする</button>
-  <div id="result">結果がここに表示されます</div>
 
-  <script>
-    const options = ['さばみりん', 'あじ開き', 'いか干し', 'ほっけ', '金目鯛'];
-    function spin() {
-      const index = Math.floor(Math.random() * options.length);
-      document.getElementById('result').textContent = options[index];
-    }
-  </script>
+<head>
+    <meta charset="UTF-8">
+    <title>ルーレット</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        .roulette-wrapper {
+            position: relative;
+            width: 90vmin;
+            height: 90vmin;
+            max-width: 400px;
+            max-height: 400px;
+            margin: 0 auto;
+            border: 10px solid #ccc;
+            border-radius: 50%;
+            overflow: hidden;
+            background: white;
+        }
+
+        .roulette {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            position: relative;
+        }
+
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: lightcoral;
+            transform-origin: 100% 100%;
+            text-align: center;
+            line-height: 45vmin;
+            font-size: 4vmin;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .segment:nth-child(1) {
+            transform: rotate(0deg);
+            background: #f66;
+        }
+
+        .segment:nth-child(2) {
+            transform: rotate(90deg);
+            background: #6f6;
+        }
+
+        .segment:nth-child(3) {
+            transform: rotate(180deg);
+            background: #66f;
+        }
+
+        .segment:nth-child(4) {
+            transform: rotate(270deg);
+            background: #fc6;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid red;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>何が当たるかな？🎯</h2>
+
+    <div class="roulette-wrapper">
+        <div class="pointer"></div>
+        <div class="roulette" id="roulette">
+            <div class="segment">りんご</div>
+            <div class="segment">みかん</div>
+            <div class="segment">バナナ</div>
+            <div class="segment">ぶどう</div>
+        </div>
+    </div>
+
+    <button onclick="spin()">スタート</button>
+
+    <script>
+        let totalDeg = 0;
+        const segments = ["りんご", "みかん", "バナナ", "ぶどう"];
+
+        function spin() {
+            const spinDeg = 360 * 5 + Math.floor(Math.random() * 360);
+            totalDeg += spinDeg;
+
+            const roulette = document.getElementById('roulette');
+            roulette.style.transform = `rotate(${totalDeg}deg)`;
+
+            // 当たりの判定
+            setTimeout(() => {
+                const selectedDeg = totalDeg % 360;
+                const index = Math.floor((360 - selectedDeg + 45) % 360 / 90);
+                const result = segments[index];
+                alert(`🎉 当たりは「${result}」です！`);
+            }, 4000); // アニメーション時間に合わせる
+        }
+    </script>
+
 </body>
+
 </html>
